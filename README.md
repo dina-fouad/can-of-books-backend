@@ -1,31 +1,32 @@
 # can-of-books-backend
 
 
+
 **Author**:Sara zwairi , Dina fouad
 **Version**: 1.0.0 (increment the patch/fix version number if you make more commits past your first submission)
 
 ## Overview
-Mongo DB 
+database delete , post
 
 ## Getting Started
 have a react app at the begining
 
 ## Architecture
-app for login and logout using auth0 and make a database by using mongo
+app for adding data and remove it
 
 ## Change Log
-21/6/2021 
+22/6/2021 fully functional app
 
 ## Credit and Collaborations
 
-mongo
+POST,DELETE
 
-Name of feature:mongodb
+Name of feature:Auth0
 
 Estimate of time needed to complete:5h
 
-Start time: 2:40
+Start time: 1:40
 
-Finish time: 10:00
+Finish time: 311:40
 
 Actual time needed to complete: 8h
