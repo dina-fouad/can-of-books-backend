@@ -12,7 +12,8 @@ app.use(express.json()); // to deal with req.body
 const PORT = process.env.PORT;
 
 //connect the express server with mongodb
-mongoose.connect('mongodb://localhost:27017/books', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect('mongodb://localhost:27017/books', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 //create a schema
@@ -152,24 +153,31 @@ function addBookHandler(req, res) {
         image_url,
         status
     } = req.body;
+
     userModel.find({ email: userName }, (err, userData) => {
         if (err) {
             res.send('something went wrong')
-        } else {
-
+        } else if(typeof userData[0]!=='undefined') {
             userData[0].books.push({
                 name: name,
                 description: description,
                 image_url: image_url,
                 status: status,
             })
-
             userData[0].save();
-
             // if (userData.length !== 0) 
-
             res.send(userData[0].books)
+        }
+        else {
+            const newUser = new userModel({email:userName,books:[{name: name,
+                description: description,
+                image_url: image_url,
+                status: status}]})
 
+            newUser.save();
+            // if (userData.length !== 0)
+            console.log(newUser); 
+            res.send(newUser.books)
         }
     })
 }
