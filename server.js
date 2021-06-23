@@ -185,16 +185,36 @@ function addBookHandler(req, res) {
 function deleteBookHandler(req, res) {
     let email = req.query.email;
     const index = Number(req.params.index);
-    userModel.find({ email: email }, (err, ownerData) => {
-        const newBookArr = ownerData[0].books.filter((item, idx) => {
+    userModel.find({ email: email }, (err, userData) => {
+        const newBookArr = userData[0].books.filter((item, idx) => {
             if (idx !== index) {
                 return item;
             }
         })
-        ownerData[0].books = newBookArr;
-        ownerData[0].save();
+        userData[0].books = newBookArr;
+        userData[0].save();
 
-        res.send(ownerData[0].books)
+        res.send(userData[0].books)
+    })
+}
+
+
+
+function updateBookHandler(req, res) {
+   const {name,description,status,image_url,email}= req.body ;
+    const index = Number(req.params.index);
+    userModel.findOne({ email: email }, (err, userData) => {
+        userData.books.splice(index ,1 ,{
+            name :name ,
+            description : description ,
+            status : status , 
+            image_url : image_url
+        
+        })
+       
+        userData.save();
+        console.log(userData.books)
+        res.send(userData.books)
     })
 }
 
@@ -202,7 +222,7 @@ app.get('/', homeHandler);
 app.get('/books', getBooksHandler);
 app.post('/addbook', addBookHandler);
 app.delete('/deletebook/:index', deleteBookHandler);
-
+app.put('/updatebook/:index', updateBookHandler);
 
 
 
